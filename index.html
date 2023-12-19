@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Callback Tracker</title>
+  </head>
+  <body>
+    <main class="main">
+      <div class="container">
+        <h1 class="container__h1">Callback Tracker</h1>
+        <form id="callbackForm">
+          <label class="container__label">
+            Address:
+            <input
+              class="container__input"
+              type="text"
+              name="address"
+              required
+            />
+          </label>
+          <label class="container__label">
+            <input
+              class="container__input"
+              type="radio"
+              name="callbackOption"
+              value="spoken"
+            />
+            Spoken
+          </label>
+          <label class="container__label">
+            <input
+              class="container__input"
+              type="radio"
+              name="callbackOption"
+              value="presentation"
+            />
+            Presentation
+          </label>
+          <label class="container__label">
+            <input
+              class="container__input"
+              type="radio"
+              name="callbackOption"
+              value="close"
+            />
+            Close
+          </label>
+          <label class="container__label">
+            Note:
+            <input class="container__input" type="text" name="note" />
+          </label>
+          <button type="button" onclick="submitCallback()">Submit</button>
+        </form>
+
+        <div class="tracker">
+          <p>Tracker:</p>
+          <ul id="callbackList" onclick="editEntry(event)"></ul>
+          <p>
+            Spoken: <span id="spokenCount">0</span>, Presentation:
+            <span id="presentationCount">0</span>, Close:
+            <span id="closeCount">0</span>, Doors Left:
+            <span id="doorsLeft">0</span>
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
