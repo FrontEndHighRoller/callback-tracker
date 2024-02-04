@@ -1,137 +1,117 @@
-let callbackList = [];
-let optionTracker = { spoken: 0, presentation: 0, close: 0 };
-let doorsLeft = 150;
+const submit = document.querySelector("button[type=button]");
+const address = document.querySelector(".input__address");
+const note = document.querySelector(".input__note");
+const buttons = document.querySelectorAll(".container__label");
+const overlay = document.getElementById("overlay");
+const doorsLeft = document.querySelector("#doorsLeft");
 
-function submitCallback() {
-  const address = document.querySelector('input[name="address"]').value;
-  const selectedOption = document.querySelector(
-    'input[name="callbackOption"]:checked'
-  );
-  const note = document.querySelector('input[name="note"]').value;
+const countSpoken = document.querySelector("#spokenCount");
+const countPresentation = document.querySelector("#presentationCount");
+const countClosed = document.querySelector("#closeCount");
 
-  if (address && selectedOption) {
-    const optionValue = selectedOption.value;
-    const entry = { address, optionValue, note };
+const cross = document.querySelector(".svg-remove");
 
-    const existingEntryIndex = callbackList.findIndex(
-      (item) => item.address === address
-    );
+let data = "";
+let doors = 0;
+let spokeCount = 0;
+let presentCount = 0;
+let closedCount = 0;
 
-    if (existingEntryIndex !== -1) {
-      // If the address already exists, reset the counts for the old option
-      const prevOptionValue = callbackList[existingEntryIndex].optionValue;
-      optionTracker[prevOptionValue]--;
-
-      // Update the option and note
-      callbackList[existingEntryIndex].optionValue = optionValue;
-      callbackList[existingEntryIndex].note = note;
-    } else {
-      // Otherwise, add a new entry
-      callbackList.push(entry);
-    }
-
-    // Update the counts based on the chosen option
-    if (optionValue === "spoken") {
-      optionTracker["spoken"]++;
-    } else if (optionValue === "presentation") {
-      optionTracker["presentation"]++;
-      optionTracker["spoken"]++;
-    } else if (optionValue === "close") {
-      optionTracker["close"]++;
-      optionTracker["presentation"]++;
-      optionTracker["spoken"]++;
-    }
-
-    // Decrease doorsLeft by one
-    doorsLeft--;
-
-    updateTracker();
-
-    // Display a message if doorsLeft reaches 0
-    if (doorsLeft === 0) {
-      alert("You just reached 150 doors. You can start your relap.");
-    }
-
-    document.getElementById("callbackForm").reset();
-  } else {
-    alert(
-      "Please enter address, select an option, and add a note before submitting. 😉"
-    );
-  }
-}
-
-function updateTracker() {
-  const callbackListElement = document.getElementById("callbackList");
-  callbackListElement.innerHTML = "";
-
-  callbackList.forEach((entry, index) => {
-    const listItem = document.createElement("li");
-
-    // Display the address, option, and note
-    listItem.innerHTML += `${entry.address} - ${entry.optionValue} (Note: ${
-      entry.note || "None"
-    })`;
-    callbackListElement.appendChild(listItem);
+// Buttons Event listener
+buttons.forEach(button => {
+  button.addEventListener("click", e => {
+    // remove clicked from buttons
+    buttons.forEach(btn => btn.classList.remove("clicked"));
+    // add class to selected button
+    e.target.classList.add("clicked");
+    const da = e.target.getAttribute("data-id");
+    data = da;
   });
+});
 
-  // Display counts and doorsLeft
-  document.getElementById("spokenCount").innerText = optionTracker["spoken"];
-  document.getElementById("presentationCount").innerText =
-    optionTracker["presentation"];
-  document.getElementById("closeCount").innerText = optionTracker["close"];
-  document.getElementById("doorsLeft").innerText = doorsLeft;
-}
+submit.addEventListener("click", e => {
+  const isSelected = Array.from(buttons).some(button =>
+    button.classList.contains("clicked")
+  );
 
-function editEntry(event) {
-  const target = event.target;
-  if (target.tagName === "LI") {
-    const address = target.innerText.split("-")[0].trim();
-    const entry = callbackList.find((item) => item.address === address);
+  if (!address.value || !isSelected) {
+    alert("Provide address and select the option");
+  } else {
+    doors++;
+    if (doors >= 150) on();
 
-    if (entry) {
-      // Reset counts for the specific entry before updating based on the new values
-      optionTracker[entry.optionValue]--;
-
-      const newAddress = prompt(
-        `Edit address for ${entry.address}:`,
-        entry.address
-      );
-      const newOption = prompt(
-        `Edit option spoken, presentation, or close:`,
-        entry.optionValue
-      );
-      const newNote = prompt(
-        `Edit note (current: ${entry.note || "None"}):`,
-        entry.note
-      );
-
-      if (
-        newAddress !== null &&
-        newOption !== null &&
-        ["spoken", "presentation", "close"].includes(newOption.toLowerCase())
-      ) {
-        // Handle count adjustments based on the new option
-        if (newOption === "spoken") {
-          // Editing from spoken to spoken (no change in counts)
-        } else if (newOption === "presentation") {
-          // Editing from spoken to presentation
-          optionTracker["spoken"]++;
-          optionTracker["presentation"]++;
-        } else if (newOption === "close") {
-          // Editing from spoken to close
-          optionTracker["presentation"]++;
-          optionTracker["close"]++;
-        }
-
-        // Update the address, option, and note
-        entry.address = newAddress;
-        entry.optionValue = newOption.toLowerCase();
-        entry.note = newNote;
-
-        updateTracker();
-      } else {
-        alert("Please enter a valid address and option.");
-      }
+    doorsLeft.innerHTML = doors;
+    console.log(doors);
+    if (data === "spoken") {
+      spokeCount++;
+      countSpoken.innerHTML = spokeCount;
     }
+
+    if (data === "presentation") {
+      spokeCount++;
+      presentCount++;
+      countSpoken.innerHTML = spokeCount;
+      countPresentation.innerHTML = presentCount;
+    }
+
+    if (data === "closed") {
+      spokeCount++;
+      presentCount++;
+      closedCount++;
+      countSpoken.innerHTML = spokeCount;
+      countPresentation.innerHTML = presentCount;
+      countClosed.innerHTML = closedCount;
+    }
+
+    // REMOVE ELEMENT
+
+    // APPEND TO DOM
+    const newElement = document.createElement("li");
+    newElement.innerHTML = `
+   <li>
+    <p>${address.value}</p>
+    <span class="append-note">${note.value}</span> <span class="spanData" data-id="${data}">${data}</span> <svg class="svg-remove svg">
+     <use xlink:href="images/sprite.svg#icon-cancel-circle" class="svg-away"></use>
+    </svg>
+   </li> 
+   `;
+
+    const parentEl = document.querySelector(".callbackList");
+
+    parentEl.appendChild(newElement);
+
+    // New code for removing the element
+    parentEl.addEventListener("click", function (e) {
+      const removeButton = e.target.closest(".svg-remove");
+      if (removeButton) {
+        const spanData = e.target.closest("li").querySelector(".spanData");
+        const dataId = spanData.getAttribute("data-id");
+
+        const listItem = e.target.closest("li");
+        if (listItem) {
+          listItem.remove();
+        }
+        doors = -1;
+        console.log(doors);
+      }
+    });
+
+    // Clear
+    address.value = "";
+    note.value = "";
+    buttons.forEach(btn => btn.classList.remove("clicked"));
   }
+});
+
+// OVERLAY
+function on() {
+  overlay.style.display = "block";
 }
+
+function off() {
+  overlay.style.display = "none";
+}
+
+overlay.addEventListener("click", function () {
+  off();
+});
