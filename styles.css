@@ -1,117 +1,373 @@
-const submit = document.querySelector("button[type=button]");
-const address = document.querySelector(".input__address");
-const note = document.querySelector(".input__note");
-const buttons = document.querySelectorAll(".container__label");
-const overlay = document.getElementById("overlay");
-const doorsLeft = document.querySelector("#doorsLeft");
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-const countSpoken = document.querySelector("#spokenCount");
-const countPresentation = document.querySelector("#presentationCount");
-const countClosed = document.querySelector("#closeCount");
+/* Prevent font size inflation */
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
 
-const cross = document.querySelector(".svg-remove");
+/* Remove default margin in favour of better control in authored CSS */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin-block-end: 0;
+}
 
-let data = "";
-let doors = 0;
-let spokeCount = 0;
-let presentCount = 0;
-let closedCount = 0;
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
 
-// Buttons Event listener
-buttons.forEach(button => {
-  button.addEventListener("click", e => {
-    // remove clicked from buttons
-    buttons.forEach(btn => btn.classList.remove("clicked"));
-    // add class to selected button
-    e.target.classList.add("clicked");
-    const da = e.target.getAttribute("data-id");
-    data = da;
-  });
-});
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+}
 
-submit.addEventListener("click", e => {
-  const isSelected = Array.from(buttons).some(button =>
-    button.classList.contains("clicked")
+/* Set shorter line heights on headings and interactive elements */
+h1,
+h2,
+h3,
+h4,
+button,
+input,
+label {
+  line-height: 1.1;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+  color: currentColor;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Make sure textareas without a rows attribute are not tiny */
+textarea:not([rows]) {
+  min-height: 10em;
+}
+
+/* Anything that has been anchored to should have extra scroll margin */
+:target {
+  scroll-margin-block: 5ex;
+}
+
+/* /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+---------------------------------------------------------------------CSS RESET -------------------------------------------------------------------------
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+:root {
+  /* ### Primary */
+  --Pale-blue: hsl(225, 100%, 94%);
+  --Bright-blue: hsl(245, 75%, 52%);
+
+  /* ### Neutral */
+  --Very-pale-blue: hsl(225, 100%, 98%);
+  --Desaturated-blue: hsl(224, 23%, 55%);
+  --Desaturated-blue-darker: hsla(224, 41%, 64%, 0.827);
+  --Dark-blue: hsl(223, 47%, 23%);
+  --White: #ffff;
+}
+
+body {
+  font-family: "Overpass", sans-serif;
+  background-image: linear-gradient(
+    to right bottom,
+    var(--Desaturated-blue),
+    var(--Desaturated-blue-darker)
   );
-
-  if (!address.value || !isSelected) {
-    alert("Provide address and select the option");
-  } else {
-    doors++;
-    if (doors >= 150) on();
-
-    doorsLeft.innerHTML = doors;
-    console.log(doors);
-    if (data === "spoken") {
-      spokeCount++;
-      countSpoken.innerHTML = spokeCount;
-    }
-
-    if (data === "presentation") {
-      spokeCount++;
-      presentCount++;
-      countSpoken.innerHTML = spokeCount;
-      countPresentation.innerHTML = presentCount;
-    }
-
-    if (data === "closed") {
-      spokeCount++;
-      presentCount++;
-      closedCount++;
-      countSpoken.innerHTML = spokeCount;
-      countPresentation.innerHTML = presentCount;
-      countClosed.innerHTML = closedCount;
-    }
-
-    // REMOVE ELEMENT
-
-    // APPEND TO DOM
-    const newElement = document.createElement("li");
-    newElement.innerHTML = `
-   <li>
-    <p>${address.value}</p>
-    <span class="append-note">${note.value}</span> <span class="spanData" data-id="${data}">${data}</span> <svg class="svg-remove svg">
-     <use xlink:href="images/sprite.svg#icon-cancel-circle" class="svg-away"></use>
-    </svg>
-   </li> 
-   `;
-
-    const parentEl = document.querySelector(".callbackList");
-
-    parentEl.appendChild(newElement);
-
-    // New code for removing the element
-    parentEl.addEventListener("click", function (e) {
-      const removeButton = e.target.closest(".svg-remove");
-      if (removeButton) {
-        const spanData = e.target.closest("li").querySelector(".spanData");
-        const dataId = spanData.getAttribute("data-id");
-
-        const listItem = e.target.closest("li");
-        if (listItem) {
-          listItem.remove();
-        }
-        doors = -1;
-        console.log(doors);
-      }
-    });
-
-    // Clear
-    address.value = "";
-    note.value = "";
-    buttons.forEach(btn => btn.classList.remove("clicked"));
-  }
-});
-
-// OVERLAY
-function on() {
-  overlay.style.display = "block";
 }
 
-function off() {
-  overlay.style.display = "none";
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
-overlay.addEventListener("click", function () {
-  off();
-});
+.container {
+  background-color: var(--White);
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 1rem;
+  border-radius: 5px;
+  max-width: 18.75rem;
+  box-shadow: 0 0.1125rem 1.5rem black;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.container__h1 {
+  text-align: center;
+  text-transform: uppercase;
+  background: linear-gradient(
+    to right bottom,
+    var(--Desaturated-blue),
+    var(--Desaturated-blue-darker)
+  );
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.container__input {
+  display: block;
+  width: 100%;
+}
+
+.container__input:focus {
+  border: 1px solid var(--Dark-blue);
+}
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+---------------------------------------------------------- RADIO BUTTON --------------------------------------------------
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+.container__label-radio {
+  margin: 16px 0;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+  padding: 9px;
+  color: var(--White);
+}
+
+/* Default styling for radio buttons */
+.container__input-radio {
+  display: none; /* Hide the actual radio buttons */
+}
+
+/* Styling for the labels when radio buttons are not checked */
+.container__label-radio {
+  background-color: transparent; /* Default background color */
+}
+
+/* .container__input-radio:checked + .container__label-radio {
+  background-color: hsl(223, 47%, 23%);
+  color: #fff; 
+} */
+
+.clicked {
+  background-color: purple !important;
+}
+
+.container__radio-buttons-div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container__label-radio:hover {
+  background-color: var(--Dark-blue);
+  color: var(--Very-pale-blue);
+}
+
+.container__label-radio-spoken {
+  background-color: blue;
+  flex: 1;
+}
+
+.container__label-radio-presentation {
+  background-color: orangered;
+  flex: 1;
+}
+
+.container__label-radio-close {
+  background-color: green;
+  flex: 1;
+}
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+---------------------------------------------------------- BUTTON  -----------------------------------------------------
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+button[type="button"] {
+  width: 100%;
+  margin: 27px auto 0 auto;
+  background-color: var(--Bright-blue);
+  border: none;
+  color: var(--White);
+  border-radius: 1rem;
+  padding: 0.5rem 0;
+  cursor: pointer;
+  box-shadow: 0 0.3rem 0.225rem grey;
+}
+
+button[type="button"]:hover {
+  background-color: var(--Dark-blue);
+  color: var(--Very-pale-blue);
+}
+
+button[type="button"]:active {
+  background-color: var(--Dark-blue);
+  color: var(--Very-pale-blue);
+}
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+---------------------------------------------------------- TRACKER -----------------------------------------------------
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+.tracker__values {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  gap: 5px;
+  color: var(--White);
+}
+
+.tracker__paragraph {
+  text-align: center;
+}
+
+.svg-letter {
+  padding: 3px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.tracker__spoken {
+  background-color: blue;
+  flex: 1;
+}
+
+.tracker__presentation {
+  background-color: orangered;
+  flex: 1;
+}
+
+.tracker__close {
+  background-color: green;
+  flex: 1;
+}
+
+.tracker__doors {
+  margin-top: 1rem;
+  display: flex;
+  width: 100%;
+  background-color: purple;
+  color: var(--White);
+  text-transform: uppercase;
+}
+
+svg {
+  margin: 0;
+  z-index: 2;
+  fill: white;
+  height: 20px;
+  width: 20px;
+}
+
+/* APPEND CHILD */
+.callbackList {
+  text-align: center;
+  font-weight: bold;
+  list-style-type: none;
+
+  padding: 0;
+}
+
+.callbackList li {
+  background-color: yellowgreen;
+  margin-bottom: 5px;
+}
+
+.delete,
+.edit {
+  border: none;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+.delete:hover,
+.edit:hover {
+  background-color: rgb(109, 105, 105);
+}
+
+.append-note {
+  color: yellow;
+  font-weight: bold;
+}
+
+.svg-remove {
+  cursor: pointer;
+}
+
+.callbackList {
+  list-style: none;
+  padding: 0;
+  position: relative; /* Set the parent container to relative position */
+}
+
+.callbackList li {
+  position: relative; /* Set the li to relative position */
+}
+
+.callbackList li svg {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+}
+
+/* Overlay window */
+
+#overlay {
+  position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  backdrop-filter: blur(5px);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+  z-index: 4; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+}
+
+#text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 1.5rem;
+  color: white;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
