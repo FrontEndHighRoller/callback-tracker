@@ -2,23 +2,23 @@
 
 # 📝 Callback Tracker
 
-> A digital tracking system for Brand Ambassadors at Great Ormond Street Children's Hospital, designed to replace inefficient paper forms and improve team productivity.
+> A digital system I created for Brand Ambassadors at Great Ormond Street Children’s Hospital to replace inefficient paper tracking.
 
-While working as a Brand Ambassador for Great Ormond Street Children's Hospital, I noticed a recurring inefficiency: we were tracking our daily outreach and donations using paper forms, which often got lost or left behind—and wasted a lot of resources.
+While working as a Brand Ambassador for Great Ormond Street Children's Hospital, I noticed our outreach and donation logs were recorded on paper forms that were often lost, and this slowed down the team. To fix this, I built an online tracking tool that let ambassadors log progress remotely, reduced paper waste, and improved productivity.
 
-I took the initiative to design a digital version of the tracking system to make the process more efficient, eco-friendly, and accessible for the team. This online tool allowed ambassadors to log their progress remotely, helping reduce paper waste and improve team productivity.
+The prototype wasn’t perfect, but it worked—and it sparked interest across the team, showing how small tech solutions can make everyday workflows smoother and more efficient.
 
-The first version had a few bugs, but it was a functional prototype that showed real potential for impact. It sparked interest among team members and demonstrated how small tech solutions can solve real problems in everyday work environments.
+![img](screen-1.png)
 
 ---
 
 ## 👀 Why This Project Stands Out
 
-- ♻️ Eco-friendly solution reducing paper waste  
-- 🚀 Improves team productivity by enabling remote tracking  
-- 📊 Tracks spoken interactions, presentations, and closed doors  
-- 🎯 Demonstrates initiative by identifying inefficiencies and creating a practical solution  
-- 🧠 Prototype showcases real-world problem-solving with web technologies  
+- Eco-friendly solution reducing paper waste  
+- Improves team productivity by enabling remote tracking  
+- Tracks spoken interactions, presentations, and closed doors  
+- Demonstrates initiative by identifying inefficiencies and creating a practical solution  
+- Prototype showcases real-world problem-solving with web technologies  
 
 ---
 
@@ -33,23 +33,11 @@ The first version had a few bugs, but it was a functional prototype that showed 
 
 ## ✨ Features
 
-- 🏠 Log addresses, notes, and outreach type (Spoken / Presentation / Close)  
-- 📈 Automatically updates counters for spoken, presentation, and closed interactions  
-- 🎨 Interactive UI with color-coded buttons for quick tracking  
-- 🔔 Overlay notification when a milestone of 150 doors is reached  
-- 📝 Editable entries and option to remove items  
-
----
-
-## 📂 Project Structure
-
-├── index.html # Main HTML file
-├── styles.css # CSS styling
-├── script.js # Form logic and tracker functionality
-├── images/ # SVG icons and assets
-
-yaml
-Copy code
+- Log addresses, notes, and outreach type (Spoken / Presentation / Close)  
+- Automatically updates counters for spoken, presentation, and closed interactions  
+- Interactive UI with color-coded buttons for quick tracking  
+- Overlay notification when a milestone of 150 doors is reached  
+- Editable entries and option to remove items  
 
 ---
 
