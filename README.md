@@ -8,7 +8,7 @@ While working as a Brand Ambassador for Great Ormond Street Children's Hospital,
 
 The prototype wasn’t perfect, but it worked—and it sparked interest across the team, showing how small tech solutions can make everyday workflows smoother and more efficient.
 
-![img](screen-1.png)
+![img](images/screen-1.png)
 
 ---
 
