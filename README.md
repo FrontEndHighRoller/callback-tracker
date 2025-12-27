@@ -63,12 +63,6 @@ The prototype wasn’t perfect, but it worked—and it sparked interest across t
 
 ---
 
-🏆 Challenge Credit
-Challenge by Frontend Mentor
-https://www.frontendmentor.io
-
----
-
 🙋‍♂️ Author
 Dennis Rumanek
 
