@@ -57,7 +57,23 @@ The prototype wasn’t perfect, but it worked—and it sparked interest across t
 
 1. Clone the repository  
    ```bash
-   git clone https://github.com/your-username/callback-tracker.git
+   git clone https://github.com/FrontEndHighRoller/callback-tracker.git
 2. Open index.html in your browser
-3. Start logging interactions and track progress in real-time 🚀
+3. Resize the screen to see responsive layouts and image switching in action 🎯
 
+---
+
+🏆 Challenge Credit
+Challenge by Frontend Mentor
+https://www.frontendmentor.io
+
+---
+
+🙋‍♂️ Author
+Dennis Rumanek
+
+GitHub: https://github.com/FrontEndHighRoller
+
+LinkedIn: https://www.linkedin.com/in/dennis-rumanek/
+
+⭐ If you like this solution, feel free to star the repository!
